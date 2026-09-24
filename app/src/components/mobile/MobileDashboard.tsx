@@ -22,7 +22,6 @@ import { formatBytes, isMediaFile, isPdfFile, isImageFile, nativeShareOrCopy, co
 import { MediaPlayer } from '../desktop/dashboard/MediaPlayer';
 import { PdfViewer } from '../desktop/dashboard/PdfViewer';
 import { PreviewModal } from '../desktop/dashboard/PreviewModal';
-import { useTheme } from '../../context/ThemeContext';
 import { TelegramFile, TelegramFolder, ShareInfo, BandwidthStats } from '../../types';
 import { useSettings } from '../../context/SettingsContext';
 import { version as appVersion } from '../../../package.json';
@@ -34,7 +33,6 @@ export default function MobileDashboard({ onLogout }: { onLogout?: () => void })
   const [activeTab, setActiveTab] = useState<'files' | 'downloads' | 'settings'>('files');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { isAndroid } = usePlatform();
-  const { theme } = useTheme();
   const { settings, updateSetting } = useSettings();
 
   // ── Android deep-link listener (https://t.me/ links) ──────────────────
