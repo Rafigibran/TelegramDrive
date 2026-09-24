@@ -59,7 +59,13 @@ class UploadForegroundService : Service() {
         super.onCreate()
         createNotificationChannel()
 
-        val notification = Notification.Builder(this, CHANNEL_ID)
+        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            Notification.Builder(this, CHANNEL_ID)
+        } else {
+            Notification.Builder(this)
+        }
+
+        val notification = builder
             .setContentTitle("Telegram Drive")
             .setContentText("Uploads are active in the background")
             .setSmallIcon(android.R.drawable.stat_sys_upload)
