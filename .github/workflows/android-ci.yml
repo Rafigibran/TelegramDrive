@@ -73,7 +73,7 @@ jobs:
 
       - name: Build Android arm64 APK and AAB
         working-directory: app
-        run: npm run tauri android build -- --apk --aab --target aarch64
+        run: npm run tauri android build -- --apk=true --aab=true --target aarch64
 
       - name: Verify Android bundles
         shell: bash
