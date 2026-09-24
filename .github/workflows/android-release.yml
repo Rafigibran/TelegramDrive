@@ -76,7 +76,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          APK="$(find app/src-tauri/gen/android/app/build/outputs -type f -name "*.apk" | head -1)"
+          APK="$(find app/src-tauri/gen/android/app/build/outputs -type f -name "*.apk" -print -quit)"
           if [ -z "$APK" ]; then
             echo "::error::APK was not produced"
             exit 1
@@ -92,8 +92,6 @@ jobs:
         with:
           script: |
             const fs = require("fs");
-            const path = require("path");
-
             const apkPath = process.env.APK_PATH;
             if (!apkPath || !fs.existsSync(apkPath)) {
               core.setFailed("APK not found: " + apkPath);
