@@ -431,20 +431,20 @@ export default function MobileDashboard({ onLogout }: { onLogout?: () => void })
   }, [allFiles, fileRenames]);
 
   return (
-    <div className="absolute inset-0 flex flex-col bg-telegram-bg text-telegram-text overflow-hidden select-none font-sans">
-      {/* Premium Gradient Top Header */}
-      <header className="flex items-center justify-between px-5 pb-4 pt-[calc(1rem+env(safe-area-inset-top,24px))] bg-gradient-to-r from-telegram-hover/40 to-telegram-bg border-b border-telegram-border/60 shadow-lg backdrop-blur-md sticky top-0 z-40">
+    <div className="mobile-dashboard-root absolute inset-0 flex flex-col bg-telegram-bg text-telegram-text overflow-hidden select-none font-sans">
+      {/* Android utility header */}
+      <header className="flex items-center justify-between px-4 pb-3 pt-[calc(0.75rem+env(safe-area-inset-top,24px))] bg-telegram-surface border-b border-telegram-border sticky top-0 z-40">
         <div className="flex items-center gap-3">
-          <img src="/logo.svg" className="w-8 h-8 drop-shadow-lg" alt="Logo" />
+          <img src="/logo.svg" className="w-8 h-8" alt="Logo" />
           <div>
-            <h1 className={`text-base font-bold tracking-tight ${theme === 'light' ? 'text-[#1c1c1e]' : 'bg-gradient-to-r from-white to-telegram-subtext bg-clip-text text-transparent'}`}>Telegram Drive</h1>
+            <h1 className="text-[15px] font-semibold tracking-tight text-telegram-text">Telegram Drive</h1>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <button
             onClick={() => setIsSidebarOpen(true)}
-            className="p-2 rounded-xl bg-telegram-hover/30 hover:bg-telegram-hover/60 border border-telegram-border/40 text-telegram-subtext transition-all duration-300"
+            className="p-2 rounded-lg bg-telegram-hover border border-telegram-border text-telegram-subtext transition-colors duration-150"
           >
             <Menu className="w-5 h-5" />
           </button>
@@ -452,11 +452,11 @@ export default function MobileDashboard({ onLogout }: { onLogout?: () => void })
       </header>
 
       {/* Main Viewport Container */}
-      <main className="flex-1 overflow-y-auto px-4 py-3 space-y-4 pb-40 scroll-smooth">
+      <main className="flex-1 overflow-y-auto px-4 py-3 space-y-3 pb-28 scroll-smooth">
         {activeTab === 'files' && (
           <div className="space-y-4">
             {/* Folder Header Breadcrumb */}
-            <div className="flex items-center justify-between bg-telegram-hover/20 p-3 rounded-2xl border border-telegram-border/30">
+            <div className="flex items-center justify-between bg-telegram-surface p-3 rounded-xl border border-telegram-border">
               <div className="flex items-center gap-2.5">
                 <Folder className="w-5 h-5 text-telegram-primary" />
                 <span className="text-sm font-semibold truncate max-w-[150px]">{activeFolder}</span>
@@ -464,7 +464,7 @@ export default function MobileDashboard({ onLogout }: { onLogout?: () => void })
               <div className="flex items-center gap-2">
                 <button
                   onClick={handleManualUpload}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-telegram-primary text-black hover:bg-telegram-primary/95 border border-telegram-primary/10 active:scale-95 transition-all duration-200"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-telegram-primary text-black hover:bg-telegram-primary/90 border border-telegram-primary/20 active:scale-[0.98] transition-colors duration-150"
                 >
                   <UploadCloud className="w-3.5 h-3.5" />
                   Upload
@@ -472,7 +472,7 @@ export default function MobileDashboard({ onLogout }: { onLogout?: () => void })
                 <button
                   onClick={handleSyncFolders}
                   disabled={isSyncing}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-telegram-primary/15 text-telegram-primary border border-telegram-primary/10 active:scale-95 transition-all duration-200 disabled:opacity-50"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-telegram-primary/10 text-telegram-primary border border-telegram-primary/25 active:scale-[0.98] transition-colors duration-150 disabled:opacity-50"
                 >
                   <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
                   Sync
@@ -505,20 +505,20 @@ export default function MobileDashboard({ onLogout }: { onLogout?: () => void })
         )}
 
         {activeTab === 'downloads' && (
-          <div className="flex flex-col items-center justify-center h-[60vh] space-y-3 text-center px-6">
-            <div className="p-4 rounded-full bg-telegram-primary/10 text-telegram-primary border border-telegram-primary/20">
-              <Download className="w-8 h-8 animate-bounce" />
+          <div className="flex flex-col items-center justify-center h-[60vh] text-center px-6">
+            <div className="p-3 rounded-xl bg-telegram-surface text-telegram-primary border border-telegram-border">
+              <Download className="w-7 h-7" />
             </div>
-            <h3 className="text-base font-bold">Transfers Queue</h3>
-            <p className="text-xs text-telegram-subtext max-w-xs leading-relaxed">
-              Downloads and uploads are safely queued and managed in the background.
+            <h3 className="mt-4 text-base font-semibold">No active transfers</h3>
+            <p className="mt-1.5 text-xs text-telegram-subtext max-w-xs leading-relaxed">
+              Downloads and uploads will appear here while they are running.
             </p>
           </div>
         )}
 
         {activeTab === 'settings' && (
           <div className="space-y-4">
-            <div className="p-4 rounded-2xl bg-telegram-hover/20 border border-telegram-border/30 space-y-4">
+            <div className="p-4 rounded-xl bg-telegram-surface border border-telegram-border space-y-4">
               <h3 className="text-sm font-bold text-telegram-primary tracking-wide uppercase text-[10px]">{t('common.preferences')}</h3>
               <div className="flex items-center justify-between py-2 border-b border-telegram-border/20">
                 <div>
@@ -849,20 +849,20 @@ export default function MobileDashboard({ onLogout }: { onLogout?: () => void })
       {/* Slide-out Sidebar Drawer Overlay */}
       {isSidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/60 z-[100] backdrop-blur-sm transition-opacity duration-300"
+          className="fixed inset-0 bg-black/60 z-[100] transition-opacity duration-200"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}
 
       {/* Slide-out Sidebar Drawer Panel */}
       <div
-        className={`fixed top-0 left-0 bottom-0 w-[280px] bg-telegram-surface border-r border-telegram-border/60 z-[110] shadow-2xl flex flex-col pt-[calc(1rem+env(safe-area-inset-top,24px))] pb-28 transition-transform duration-300 ease-out transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed top-0 left-0 bottom-0 w-[296px] bg-telegram-surface border-r border-telegram-border z-[110] shadow-xl flex flex-col pt-[calc(1rem+env(safe-area-inset-top,24px))] pb-28 transition-transform duration-300 ease-out transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
         onClick={e => e.stopPropagation()}
       >
-        <div className="p-4 flex items-center justify-between border-b border-telegram-border/30">
+        <div className="p-4 flex items-center justify-between border-b border-telegram-border">
           <div className="flex items-center gap-2">
-            <img src="/logo.svg" className="w-8 h-8 drop-shadow-lg" alt="Logo" />
+            <img src="/logo.svg" className="w-8 h-8" alt="Logo" />
             <span className="font-bold text-base text-telegram-text tracking-tight">Telegram Drive</span>
           </div>
           <button
@@ -971,7 +971,7 @@ export default function MobileDashboard({ onLogout }: { onLogout?: () => void })
 
       {/* Adsterra Banner (Android only) — z-[60] keeps it above the BottomNavBar (z-50).
            Positioned at bottom-[144px] to sit cleanly above the nav bar (~60px tall, at bottom-20=80px). */}
-      <div className="fixed bottom-[144px] left-0 right-0 z-[60]">
+      <div className="fixed bottom-[76px] left-0 right-0 z-[60]">
         <AdsterraBanner visible={adVisible} />
       </div>
 
@@ -1012,11 +1012,11 @@ export default function MobileDashboard({ onLogout }: { onLogout?: () => void })
       {/* Bulk Share Results Modal */}
       {bulkShareLinks && (
         <div
-          className="fixed inset-0 z-[150] flex items-end justify-center bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-[150] flex items-end justify-center bg-black/50"
           onClick={() => setBulkShareLinks(null)}
         >
           <div
-            className="w-full max-w-lg bg-[#1c1c1e] border border-white/10 rounded-t-3xl p-5 pb-8 shadow-2xl animate-in slide-in-from-bottom duration-300 max-h-[70vh] flex flex-col"
+            className="w-full max-w-lg bg-telegram-surface border-t border-telegram-border rounded-t-2xl p-5 pb-8 shadow-xl animate-in slide-in-from-bottom duration-300 max-h-[70vh] flex flex-col"
             onClick={e => e.stopPropagation()}
           >
             {/* Drag handle */}
