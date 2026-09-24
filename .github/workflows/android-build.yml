@@ -66,7 +66,7 @@ jobs:
 
       - name: Build arm64 APK
         working-directory: app
-        run: npm run tauri android build -- --apk --aab --target aarch64
+        run: npm run tauri android build -- --apk=true --aab=true --target aarch64
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
