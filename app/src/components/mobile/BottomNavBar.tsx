@@ -4,10 +4,9 @@ import { useTranslation } from 'react-i18next';
 interface BottomNavBarProps {
   activeTab: 'files' | 'downloads' | 'settings';
   setActiveTab: (tab: 'files' | 'downloads' | 'settings') => void;
-  isAndroid?: boolean;
 }
 
-export function BottomNavBar({ activeTab, setActiveTab, isAndroid }: BottomNavBarProps) {
+export function BottomNavBar({ activeTab, setActiveTab }: BottomNavBarProps) {
   const { t } = useTranslation();
 
   const tabs = [
