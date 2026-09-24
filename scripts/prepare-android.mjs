@@ -133,16 +133,16 @@ if (!fs.existsSync(gradlePath)) {
 let gradle = fs.readFileSync(gradlePath, 'utf8');
 
 if (!gradle.includes('ndkVersion = "28.0.12433566"')) {
-  gradle = gradle.replace(/android\s*\{/, 'android {\n    ndkVersion = "28.0.12433566"');
+  gradle = gradle.replace(
+    /android\s*\{/,
+    'android {\n    ndkVersion = "28.0.12433566"'
+  );
 }
 
 if (!gradle.includes('useLegacyPackaging = false')) {
   gradle = gradle.replace(
-    /android\s*\{([\s\S]*?)\n\}/,
-    (block) => block.replace(
-      /\n\}/,
-      '\n\n    packaging {\n        jniLibs {\n            useLegacyPackaging = false\n        }\n    }\n}'
-    )
+    /android\s*\{/,
+    'android {\n    packaging {\n        jniLibs {\n            useLegacyPackaging = false\n        }\n    }'
   );
 }
 
