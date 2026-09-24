@@ -81,3 +81,17 @@ jobs:
           find app/src-tauri/gen/android/app/build/outputs -type f \( -name '*.apk' -o -name '*.aab' \) -print
           test -n "$(find app/src-tauri/gen/android/app/build/outputs -type f -name '*.apk' -print -quit)"
           test -n "$(find app/src-tauri/gen/android/app/build/outputs -type f -name '*.aab' -print -quit)"
+
+      - name: Upload Android APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: telegram-drive-android-arm64
+          path: app/src-tauri/gen/android/app/build/outputs/**/*.apk
+          if-no-files-found: error
+
+      - name: Upload Android AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: telegram-drive-android-aab
+          path: app/src-tauri/gen/android/app/build/outputs/**/*.aab
+          if-no-files-found: error
