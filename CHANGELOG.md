@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.9.7] - 2026-09-24
+
+### Android & Mobile UI
+
+- Added a GitHub Actions workflow for Android arm64 APK builds.
+- Added Android release automation for APK and AAB builds.
+- Added a native foreground upload service preparation step for Android.
+- Refined the mobile dashboard with flat surfaces, edge-anchored navigation, and clearer empty states.
+- Added an Android design direction document for future mobile UI work.
+
+---
+
 ## [1.9.6] - 2026-06-30
 
 ### Features & Ad System Refinement
