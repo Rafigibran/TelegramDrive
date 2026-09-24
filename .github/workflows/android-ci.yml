@@ -44,6 +44,9 @@ jobs:
           SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
           echo "ANDROID_HOME=$SDK_ROOT" >> "$GITHUB_ENV"
           echo "ANDROID_SDK_ROOT=$SDK_ROOT" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_HOME=$SDK_ROOT/ndk/28.0.12433566" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_ROOT=$SDK_ROOT/ndk/28.0.12433566" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK=$SDK_ROOT/ndk/28.0.12433566" >> "$GITHUB_ENV"
           sdkmanager \
             "platform-tools" \
             "platforms;android-36" \
