@@ -109,7 +109,7 @@ const permissions = [
 for (const permission of permissions) {
   const tag = `    <uses-permission android:name="${permission}" />`;
   if (!manifest.includes(`android:name="${permission}"`)) {
-    manifest = manifest.replace(/<manifest([^>]*)>/, '<manifest$1>\\n' + tag);
+    manifest = manifest.replace(/<manifest([^>]*)>/, '<manifest$1>\n' + tag);
   }
 }
 
@@ -119,7 +119,7 @@ const serviceEntry = `        <service
             android:foregroundServiceType="dataSync" />`;
 
 if (!manifest.includes('android:name=".UploadForegroundService"')) {
-  manifest = manifest.replace('</application>', serviceEntry + '\\n    </application>');
+  manifest = manifest.replace('</application>', serviceEntry + '\n    </application>');
 }
 
 fs.writeFileSync(manifestPath, manifest);
