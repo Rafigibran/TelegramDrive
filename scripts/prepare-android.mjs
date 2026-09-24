@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const repoRoot = process.cwd();
+const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const configPath = path.join(repoRoot, 'app', 'src-tauri', 'tauri.conf.json');
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 const identifier = config.identifier;
@@ -123,4 +124,27 @@ if (!manifest.includes('android:name=".UploadForegroundService"')) {
 }
 
 fs.writeFileSync(manifestPath, manifest);
-console.log(`Prepared Android foreground upload service for ${identifier}`);
+
+const gradlePath = path.join(androidRoot, 'app', 'build.gradle.kts');
+if (!fs.existsSync(gradlePath)) {
+  throw new Error(`Android Gradle file not found: ${gradlePath}`);
+}
+
+let gradle = fs.readFileSync(gradlePath, 'utf8');
+
+if (!gradle.includes('ndkVersion = "28.0.12433566"')) {
+  gradle = gradle.replace(/android\s*\{/, 'android {\n    ndkVersion = "28.0.12433566"');
+}
+
+if (!gradle.includes('useLegacyPackaging = false')) {
+  gradle = gradle.replace(
+    /android\s*\{([\s\S]*?)\n\}/,
+    (block) => block.replace(
+      /\n\}/,
+      '\n\n    packaging {\n        jniLibs {\n            useLegacyPackaging = false\n        }\n    }\n}'
+    )
+  );
+}
+
+fs.writeFileSync(gradlePath, gradle);
+console.log(`Prepared Android foreground upload service and 16KB-compatible native packaging for ${identifier}`);
