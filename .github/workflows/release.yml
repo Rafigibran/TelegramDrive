@@ -262,73 +262,8 @@ jobs:
 
           echo "::notice::AppImage patched successfully for cross-distro EGL compatibility"
 
-  build-android:
-    needs: create-release
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-          cache-dependency-path: app/package-lock.json
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: '17'
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v4
-        with:
-          packages: 'platform-tools platforms;android-36 build-tools;36.0.0 ndk;28.0.12433566'
-          accept-android-sdk-licenses: true
-
-      - name: Configure Android environment
-        shell: bash
-        run: |
-          set -euo pipefail
-          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
-          echo "ANDROID_HOME=$SDK_ROOT" >> "$GITHUB_ENV"
-          echo "ANDROID_SDK_ROOT=$SDK_ROOT" >> "$GITHUB_ENV"
-          echo "ANDROID_NDK_HOME=$SDK_ROOT/ndk/28.0.12433566" >> "$GITHUB_ENV"
-          echo "ANDROID_NDK_ROOT=$SDK_ROOT/ndk/28.0.12433566" >> "$GITHUB_ENV"
-          echo "ANDROID_NDK=$SDK_ROOT/ndk/28.0.12433566" >> "$GITHUB_ENV"
-
-      - name: Install Rust stable with Android targets
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
-
-      - name: Install frontend dependencies
-        working-directory: app
-        run: npm ci
-
-      - name: Initialize Tauri Android project
-        working-directory: app
-        run: npm run tauri android init -- --ci
-
-      - name: Prepare Android native integrations
-        working-directory: app
-        run: npm run android:prepare
-
-      - name: Build Android APK
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          releaseId: ${{ needs.create-release.outputs.release_id }}
-          projectPath: ./app
-          mobile: android
-          args: '--apk=true --target aarch64'
-
   publish-release:
-    needs: [create-release, build-tauri, build-android]
+    needs: [create-release, build-tauri]
     runs-on: ubuntu-latest
     permissions:
       contents: write
