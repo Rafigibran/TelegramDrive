@@ -342,11 +342,6 @@ jobs:
         with:
           targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
 
-      - name: Configure Android environment
-        run: |
-          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> "$GITHUB_ENV"
-          echo "NDK_HOME=$ANDROID_SDK_ROOT/ndk/28.0.12433566" >> "$GITHUB_ENV"
-
       - name: Install frontend dependencies
         working-directory: app
         run: npm ci
