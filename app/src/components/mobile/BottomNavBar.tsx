@@ -17,22 +17,25 @@ export function BottomNavBar({ activeTab, setActiveTab, isAndroid }: BottomNavBa
   ] as const;
 
   return (
-    <nav className={`fixed left-4 right-4 bg-telegram-bg/85 backdrop-blur-xl border border-telegram-border/50 rounded-2xl shadow-2xl flex justify-around py-3 z-50 transition-all duration-300 ${isAndroid ? 'bottom-20' : 'bottom-5'}`}>
+    <nav
+      className={`fixed inset-x-0 bottom-0 bg-telegram-surface border-t border-telegram-border z-50 flex justify-around px-2 pt-2 pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))]`}
+      aria-label="Primary navigation"
+    >
       {tabs.map(({ id, labelKey, icon: Icon }) => {
         const isActive = activeTab === id;
         return (
           <button
             key={id}
             onClick={() => setActiveTab(id)}
-            className={`flex flex-col items-center gap-1 transition-all duration-300 relative ${
-              isActive ? 'text-telegram-primary scale-110' : 'text-telegram-subtext hover:text-telegram-text'
+            className={`min-w-0 flex-1 flex flex-col items-center gap-1 py-1.5 transition-colors duration-150 ${
+              isActive
+                ? 'text-telegram-primary'
+                : 'text-telegram-subtext hover:text-telegram-text'
             }`}
+            aria-current={isActive ? 'page' : undefined}
           >
-            <Icon className="w-5 h-5" />
-            <span className="text-[10px] font-bold tracking-wide uppercase">{t(labelKey)}</span>
-            {isActive && (
-              <span className="absolute -bottom-1 w-1.5 h-1.5 bg-telegram-primary rounded-full shadow-[0_0_8px_var(--telegram-primary)]" />
-            )}
+            <Icon className="w-5 h-5" strokeWidth={isActive ? 2.2 : 2} />
+            <span className="text-[10px] font-medium tracking-tight">{t(labelKey)}</span>
           </button>
         );
       })}
